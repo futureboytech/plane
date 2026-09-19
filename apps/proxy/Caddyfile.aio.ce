@@ -23,6 +23,12 @@
         try_files {path} {path}/ /index.html
         file_server
     }
+    # Preserve the bucket path when forwarding signed uploads and downloads.
+    @uploads path /uploads /uploads/*
+    handle @uploads {
+        reverse_proxy 10.150.0.2:9000
+    }
+
     handle_path /* {
         root * /app/web
         try_files {path} {path}/ /index.html
